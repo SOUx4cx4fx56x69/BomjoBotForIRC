@@ -50,7 +50,7 @@ close(tmpFile);
 
 void getUser(char*buffer,char*user)
 {
-while(*buffer!=' ')
+while(*buffer!=' ' && *buffer)
  *user++=*buffer++;
 }
 
@@ -59,7 +59,7 @@ void getMessageAndChannel(char*buffer,char*message,char*channel)
 {
 if(strstr(buffer, "PRIVMSG") != NULL )
 {
-while(*buffer !='#')*buffer++;
+while(*buffer !='#' && *buffer)*buffer++;
 while(*buffer!=' ' && *buffer)
  *channel++=*buffer++;
 while(*buffer!=':' && *buffer)*buffer++;
