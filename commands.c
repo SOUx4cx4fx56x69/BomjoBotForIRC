@@ -289,7 +289,10 @@ default:
 }//switch
 }//else
 if(tmp_num_two == -1 || tmp_num== -1 || answer > MAXNUM)
+{
+ writeTo(socket,"Which you get this fucking mathematic? Fuck this. NOPE. no-no");
  return -1;
+}
 *msg++;
 }//while
 
@@ -538,9 +541,9 @@ getMessageAndChannel(buffer,message,channel);
 if(channel[0] =='\0')
  getNickFromUser(user,channel);
 printf("HUMAN WITH MONIKER %s WRITE IN CHANNEL/TO PM %s -> %s\n",user,channel,message );
-if(strcmp(user,OWNER) == 0)
+if(strcmp(user,OWNER) == 0 && *channel && *user && *message)
  _command(message,channel,socket);
-if(strlen(user) >= 1 && strlen(message) >=4)
+if(*channel && *user && *message)
  BotFunction(message,channel,socket);
 }
 
