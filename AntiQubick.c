@@ -8,11 +8,13 @@ char OWNER_NICK[256];// = "WEREWOLF";
 char DEFAULT_CHANNEL[256];// = "#ru";
 unsigned long long MAXPOWN;
 unsigned long long MAXNUM;
+unsigned long long PINGTIME;
 int main(int argcount, char *arguments[])
 {
    if(argcount < 6)
     error("./programm host port nick UserName RealName");
    InitConfig();
+   printf("%d debug time\n",PINGTIME);
    //printf("\n%s %s %s\n",OWNER,OWNER_NICK,DEFAULT_CHANNEL); //debug
 ////////////////////////////////////////////////////////////
     pthread_t ForBot;

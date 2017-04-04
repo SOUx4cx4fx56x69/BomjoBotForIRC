@@ -99,6 +99,8 @@ if(strstr(setting,"MAXPOWN") != NULL)
  MAXPOWN=(unsigned long long)atoi(set);
 if(strstr(setting,"MAXNUM") != NULL)
  MAXNUM=(unsigned long long)atoi(set);
+if(strstr(setting,"PINGTIME") != NULL)
+ PINGTIME=(unsigned long long)atoi(set);
 bzero(setting,SIZEBUFFER);
 bzero(set,SIZEBUFFER);
 }

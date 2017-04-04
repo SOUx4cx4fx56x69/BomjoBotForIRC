@@ -4,7 +4,7 @@ _botPing(int socket)
 {
 while(1)
 {
-sleep(300);
+sleep(PINGTIME);
 writeTo(socket,"PING");
 }
 }
