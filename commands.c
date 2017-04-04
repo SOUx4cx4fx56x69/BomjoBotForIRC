@@ -60,7 +60,7 @@ void getMessageAndChannel(char*buffer,char*message,char*channel)
 if(strstr(buffer, "PRIVMSG") != NULL )
 {
 printf("%s CHANNEL\n",buffer);
-while(*buffer !='P' && *(buffer+1) !='R' && *(buffer+2) !='I' && *(buffer+3) !='V' && *(buffer+4) !='M' && *(buffer+5) !='S' && *(buffer+6) !='G' && *buffer)*buffer++;
+while(*buffer !='P' || *(buffer+1) !='R' || *(buffer+2) !='I' || *(buffer+3) !='V' || *(buffer+4) !='M' || *(buffer+5) !='S' || *(buffer+6) !='G' && *buffer)*buffer++;
 buffer=buffer+8;
 if(*buffer=='#')
 while(*buffer!=' ' && *buffer)
