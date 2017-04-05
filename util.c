@@ -23,21 +23,21 @@ else
 void 
 grepPing(char * buffer,char*ping)
 {
-memset(ping,0,SIZEPING);
-while(*buffer != ':' && *buffer)
+while(*buffer != 'P' 
+|| *(buffer+1) != 'I'
+|| *(buffer+2) != 'N'
+|| *(buffer+3) != 'G'
+&& *buffer) //shitcode :o
 {
-*buffer++;
+printf("%c",*buffer);
+ *buffer++;
 }
-if(*buffer == ':' 
-&& *(buffer+1)=='P' 
-&& *(buffer+2)=='I'
-&& *(buffer+3)=='N'
-&& *(buffer+4)=='G'
-)
-while(*buffer!='\n')
- *ping++=*buffer++;
-else 
- *ping='\0';
+buffer=buffer+5;
+if(*buffer == ':')
+ while(*buffer!='\n')
+  *ping++=*buffer++;
+ else 
+  *ping='\0';
 }//end
 
 unsigned int 
@@ -45,7 +45,7 @@ CountString(FILE*file)
 {
 unsigned int count=0;
 char ch;
-if(file == NULL) error("No can find this file");
+if(file == NULL) error("CRITICAL_ERROR: Not readable file");
 while( (ch=fgetc(file)) != EOF)
  if(ch=='\n') count++;
 return count;
@@ -55,7 +55,7 @@ void
 getRandomStringFromFie(char*file,char*buffer)
 {
 FILE*trollFile=fopen(file,"r");
-if(trollFile == NULL) error("No can find this file troll.txt");
+if(trollFile == NULL) error("CRITICAL_ERROR: No can find this file troll.txt in the directory");
 srand ( time(NULL) );
 unsigned auto strings = CountString(trollFile);
 unsigned auto randomString = rand() % strings;
@@ -125,7 +125,7 @@ void
 InitConfig( char*ConfigFile )
 {
 FILE * config = fopen(ConfigFile,"r");;
-if(config == NULL) error("No can read config.ini");
+if(config == NULL) error("CRITICAL_ERROR: No can read config.ini");
 unsigned int counter=0;
 char setting[SIZEBUFFER];
 char set[SIZEBUFFER];
@@ -142,28 +142,30 @@ fclose(config);
 }
 void PingPong(char*buffer,int * socket)
 {
+
     char ping[SMALLBUFFER];
     bzero(ping,SMALLBUFFER);
     if(strstr(buffer,"PING") != NULL)
     {
-     printf("Try get Ping-Pong\n");
+     printf("INFO: Try get Ping-Pong\n");
      grepPing(buffer,ping);
-     if(!ping)
-      printf("This IRC server?\n");
+     if(!*ping)
+      printf("WARNING: This IRC server?\n");
      else
      {
-      printf("Okey write PONG\n");
+      printf("INFO: Okey write PONG %s\n",ping);
       sprintf(buffer,"PONG %s",ping);
+      printf("INFO: Write this %s to server\n",buffer);
       writeTo(*socket,buffer);
-      printf("Pong pong..\n");
+      printf("INFO: Pong pong..\n");
      }
     }//if
     if(strstr(buffer,"nospoof") != NULL)
     {
-     printf("No spoof..\n");
+     printf("INFO: No spoof..\n");
      noSpoof(buffer,ping);
      sprintf(buffer,"PONG %s",ping);
      if(ping != '\0') writeTo(*socket,buffer);
-     else printf("all bad?\n");
+     else printf("ERROR: all bad?\n");
     }
 }
