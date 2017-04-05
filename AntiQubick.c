@@ -51,16 +51,14 @@ int main(int argcount, char *arguments[])
     printf("%s\n",buffer);
     bzero(buffer,SIZEBUFFER);
     bzero(ping,SIZEPING);
-    while(1)
-    {
-     if(pthread_create(&ForBot,NULL,&_botRead,mainsocket) ==-1)error("No can create thread:(");
-     if(pthread_create(&ForTroll,NULL,&_botTroll,mainsocket) ==-1)error("No can create thread:(");
-     if(pthread_create(&ForPing,NULL,&_botPing,mainsocket) ==-1)error("No can create thread:(");
-     if(pthread_create(&ForAntiDisable,NULL,&_deleteDisableForWhile,NULL) ==-1)error("No can create thread:(");
-     pthread_join(ForBot,NULL);
-     pthread_join(ForTroll,NULL);
-     pthread_join(ForPing,NULL);
-     stopClient(&mainsocket);
-    }
+    if(pthread_create(&ForBot,NULL,&_botRead,mainsocket) ==-1)error("No can create thread:(");
+    if(pthread_create(&ForTroll,NULL,&_botTroll,mainsocket) ==-1)error("No can create thread:(");
+    if(pthread_create(&ForPing,NULL,&_botPing,mainsocket) ==-1)error("No can create thread:(");
+    if(pthread_create(&ForAntiDisable,NULL,&_deleteDisableForWhile,NULL) ==-1)error("No can create thread:(");
+    pthread_join(ForBot,NULL);
+    pthread_join(ForTroll,NULL);
+    pthread_join(ForPing,NULL);
+    stopClient(&mainsocket);
+    main(7,arguments);
 }
 
