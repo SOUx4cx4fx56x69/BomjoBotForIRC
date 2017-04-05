@@ -11,9 +11,9 @@ unsigned long long MAXNUM;
 unsigned long long PINGTIME;
 int main(int argcount, char *arguments[])
 {
-   if(argcount < 6)
-    error("./programm host port nick UserName RealName");
-   InitConfig();
+   if(argcount < 7)
+    error("./programm host port nick UserName RealName configFile");
+   InitConfig(arguments[6]);
    printf("%d debug time\n",PINGTIME);
    //printf("\n%s %s %s\n",OWNER,OWNER_NICK,DEFAULT_CHANNEL); //debug
 ////////////////////////////////////////////////////////////
@@ -51,14 +51,16 @@ int main(int argcount, char *arguments[])
     printf("%s\n",buffer);
     bzero(buffer,SIZEBUFFER);
     bzero(ping,SIZEPING);
-    if(pthread_create(&ForBot,NULL,&_botRead,mainsocket) ==-1)error("No can create thread:(");
-    if(pthread_create(&ForTroll,NULL,&_botTroll,mainsocket) ==-1)error("No can create thread:(");
-    if(pthread_create(&ForPing,NULL,&_botPing,mainsocket) ==-1)error("No can create thread:(");
-    if(pthread_create(&ForAntiDisable,NULL,&_deleteDisableForWhile,NULL) ==-1)error("No can create thread:(");
-    pthread_join(ForBot,NULL);
-    pthread_join(ForTroll,NULL);
-    pthread_join(ForPing,NULL);
-    stopClient(&mainsocket);
-    return 0;
+    while(1)
+    {
+     if(pthread_create(&ForBot,NULL,&_botRead,mainsocket) ==-1)error("No can create thread:(");
+     if(pthread_create(&ForTroll,NULL,&_botTroll,mainsocket) ==-1)error("No can create thread:(");
+     if(pthread_create(&ForPing,NULL,&_botPing,mainsocket) ==-1)error("No can create thread:(");
+     if(pthread_create(&ForAntiDisable,NULL,&_deleteDisableForWhile,NULL) ==-1)error("No can create thread:(");
+     pthread_join(ForBot,NULL);
+     pthread_join(ForTroll,NULL);
+     pthread_join(ForPing,NULL);
+     stopClient(&mainsocket);
+    }
 }
 

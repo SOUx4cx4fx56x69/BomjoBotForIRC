@@ -167,7 +167,7 @@ BotFunction(char * msg, char*channel,int socket)
 ///
 pthread_t _forCommands;
 ///
-if(strstr(msg, "FUCKOFF") != NULL )
+if(strstr(msg, "FUCKOFF") != NULL || strstr(msg, "SHUTUP") != NULL || strstr(msg, "shutup") != NULL || strstr(msg, "завали") != NULL  || strstr(msg, "завали варюжку") != NULL  || strstr(msg, "ебалозаткни") != NULL )
   if(pthread_create(&_forCommands,NULL,&_disableForWhile,socket) ==-1)error("No can create thread:(");
 ///
 if(strstr(msg, "INQUBINOID") != NULL 
@@ -356,7 +356,10 @@ else //if not channel
  sprintf(tmp,"PRIVMSG %s %s",channel,normalMsg);
 writeTo(socket, tmp);
 }//SAYTHIS
-
+if(strstr(msg, "CLEARFUCKOFFPOINTS") != NULL )
+{
+FORFUCKOFF=0;
+}
 if(strstr(msg, "JOINTO") != NULL )
 {
 char tmp[SIZEBUFFER];
@@ -488,7 +491,7 @@ else
 if(strstr(msg, "HELP") != NULL )
 {
  char tmp[SIZEBUFFER];
- sprintf(tmp,"PRIVMSG %s SAYTHIS (#channel optional) message;LEAVE #channel;JOINTO #channel;SETTOPIC topic;PSAUX;QUIT;WRITETOSERVER message;NICKSET nick;HTTP url cookie postfield;It seems everything, the boss",channel);
+ sprintf(tmp,"PRIVMSG %s SAYTHIS (#channel optional) message;LEAVE #channel;JOINTO #channel;SETTOPIC topic;PSAUX;QUIT;WRITETOSERVER message;NICKSET nick;CLEARFUCKOFFPOINTS;HTTP url cookie postfield;It seems everything, the boss",channel);
  writeTo(socket, tmp);
 }
 

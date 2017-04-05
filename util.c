@@ -83,44 +83,44 @@ raise(9);
 void
 _setSetting(char*setting,char*set)
 {
-if(strstr(setting,"CHANNEL") != NULL)
+if(strcmp(setting,"CHANNEL") == 0)
  strcpy(DEFAULT_CHANNEL,set);
-if(strstr(setting,"owner") != NULL)
+if(strcmp(setting,"owner") == 0)
  strcpy(OWNER,set);
-if(strstr(setting,"OWNER_NICK") != NULL)
+if(strcmp(setting,"OWNER_NICK") == 0)
  strcpy(OWNER_NICK,set);
-if(strstr(setting,"NEEDFORDISABLE") != NULL)
+if(strcmp(setting,"NEEDFORDISABLE") == 0)
  NEEDFORFUCKOFF=(unsigned long long)atoi(set);
-if(strstr(setting,"TIMETROLL") != NULL)
+if(strcmp(setting,"TIMETROLL") == 0)
  TIMETROLL=(unsigned int)atoi(set);
-if(strstr(setting,"TIMEDW") != NULL)
+if(strcmp(setting,"TIMEDW") == 0)
  TIMEDW=(unsigned int)atoi(set);
-if(strstr(setting,"MAXPOWN") != NULL)
+if(strcmp(setting,"MAXPOWN") == 0)
  MAXPOWN=(unsigned long long)atoi(set);
-if(strstr(setting,"MAXNUM") != NULL)
+if(strcmp(setting,"MAXNUM") == 0)
  MAXNUM=(unsigned long long)atoi(set);
-if(strstr(setting,"PINGTIME") != NULL)
+if(strcmp(setting,"PINGTIME") == 0)
  PINGTIME=(unsigned long long)atoi(set);
 bzero(setting,SIZEBUFFER);
 bzero(set,SIZEBUFFER);
 }
 
 void
-InitConfig()
+InitConfig( char*ConfigFile )
 {
-FILE*config=fopen("config.ini","r");
+FILE * config = fopen(ConfigFile,"r");;
 if(config == NULL) error("No can read config.ini");
-unsigned int counter;
+unsigned int counter=0;
 char setting[SIZEBUFFER];
 char set[SIZEBUFFER];
 char ch;
 bool _thisSet=false;
-while ((ch = fgetc(config)) != EOF)
+while ( (ch = fgetc( config )) != EOF)
 {
 if(ch=='='){_thisSet=true;setting[counter++]='\0';counter=0;}
 if(ch=='\n'){_thisSet=false;set[counter++]='\0';counter=0;_setSetting(setting,set);}
-if(_thisSet==false && ch != '\n' && ch != '=')setting[counter++]=ch;
-if(_thisSet==true && ch != '\n' && ch != '=')set[counter++]=ch;
+if(_thisSet==false && ch != '\n' && ch != '=') setting[ counter++ ]=ch;
+if(_thisSet==true && ch != '\n' && ch != '=') set[ counter++ ]=ch;
 }
-close(config);
+fclose(config);
 }
