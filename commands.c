@@ -531,7 +531,7 @@ if(*buffer)
  char user[SMALLBUFFER];
  char channel[SMALLBUFFER];
  char message[SIZEBUFFER];
- if(strstr(buffer,"KICK") !=NULL)
+ if(strstr(buffer,"KICK") !=NULL && strstr(buffer,"PRIVMSG") ==NULL )
  {
   printf("FULL MESSAGE: %s\n",buffer);
   getChannel(buffer,channel);
