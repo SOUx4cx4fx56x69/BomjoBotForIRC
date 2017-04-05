@@ -38,7 +38,7 @@ int main(int argcount, char *arguments[])
     PingPong(buffer,&mainsocket);
     printf("%s\n",buffer);
     printf("INFO: Join to channel\n");
-    while(strstr(buffer,"nospoof") != NULL)
+    while(strstr(buffer,"nospoof") != NULL || strstr(buffer,"PING") != NULL )
     {
     PingPong(buffer,&mainsocket);
     sprintf(buffer,"JOIN %s",DEFAULT_CHANNEL);
