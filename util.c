@@ -10,7 +10,16 @@ error(const char *msg)
     puts("");
     exit(-1);
 }
-
+void
+noSpoof(char*buffer,char*ping)
+{
+while(*buffer != ':' && *buffer) buffer++;
+if(*buffer == ':')
+ while(*buffer)
+  *ping++=*buffer++;
+else
+ *ping='\0';
+}
 void 
 grepPing(char * buffer,char*ping)
 {
@@ -19,7 +28,12 @@ while(*buffer != ':' && *buffer)
 {
 *buffer++;
 }
-if(*buffer == ':')
+if(*buffer == ':' 
+&& *(buffer+1)=='P' 
+&& *(buffer+2)=='I'
+&& *(buffer+3)=='N'
+&& *(buffer+4)=='G'
+)
 while(*buffer!='\n')
  *ping++=*buffer++;
 else 
@@ -125,4 +139,31 @@ if(_thisSet==false && ch != '\n' && ch != '=') setting[ counter++ ]=ch;
 if(_thisSet==true && ch != '\n' && ch != '=') set[ counter++ ]=ch;
 }
 fclose(config);
+}
+void PingPong(char*buffer,int * socket)
+{
+    char ping[SMALLBUFFER];
+    bzero(ping,SMALLBUFFER);
+    if(strstr(buffer,"PING") != NULL)
+    {
+     printf("Try get Ping-Pong\n");
+     grepPing(buffer,ping);
+     if(!ping)
+      printf("This IRC server?\n");
+     else
+     {
+      printf("Okey write PONG\n");
+      sprintf(buffer,"PONG %s",ping);
+      writeTo(*socket,buffer);
+      printf("Pong pong..\n");
+     }
+    }//if
+    if(strstr(buffer,"nospoof") != NULL)
+    {
+     printf("No spoof..\n");
+     noSpoof(buffer,ping);
+     sprintf(buffer,"PONG %s",ping);
+     if(ping != '\0') writeTo(*socket,buffer);
+     else printf("all bad?\n");
+    }
 }
