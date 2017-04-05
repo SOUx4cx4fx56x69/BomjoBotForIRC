@@ -10,7 +10,7 @@ unsigned long long MAXPOWN;
 unsigned long long MAXNUM;
 unsigned long long PINGTIME;
 bool WAITMESSAGE=false;
-unsigned short WRITETHIS;
+unsigned long long WRITETHIS;
 int main(int argcount, char *arguments[])
 {
    if(argcount < 7)

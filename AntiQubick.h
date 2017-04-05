@@ -29,4 +29,4 @@ unsigned long long MAXNUM; // MAX NUM for simply math
 unsigned long long PINGTIME; // ping time
 ///
 bool WAITMESSAGE; // FOR R4SAS :O
-unsigned short WRITETHIS; // I write this shit ^_^
+unsigned long long WRITETHIS; // I write this shit ^_^
