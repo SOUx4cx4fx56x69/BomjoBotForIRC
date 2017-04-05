@@ -9,13 +9,15 @@ char DEFAULT_CHANNEL[256];// = "#ru";
 unsigned long long MAXPOWN;
 unsigned long long MAXNUM;
 unsigned long long PINGTIME;
+bool WAITMESSAGE=false;
+unsigned short WRITETHIS;
 int main(int argcount, char *arguments[])
 {
    if(argcount < 7)
     error("./programm host port nick UserName RealName configFile");
    InitConfig(arguments[6]);
-   //printf("%d debug time\n",PINGTIME);
-   //printf("\n%s %s %s\n",OWNER,OWNER_NICK,DEFAULT_CHANNEL); //debug
+   printf("%d debug time\n",PINGTIME);
+   printf("\n%s %s %s\n",OWNER,OWNER_NICK,DEFAULT_CHANNEL); //debug
 ////////////////////////////////////////////////////////////
     pthread_t ForBot;
     pthread_t ForTroll;
@@ -51,6 +53,7 @@ int main(int argcount, char *arguments[])
     readFrom(mainsocket,buffer);
     printf("%s\n",buffer);
     bzero(buffer,SIZEBUFFER);
+    printf("start threads\n");
     if(pthread_create(&ForBot,NULL,&_botRead,mainsocket) ==-1)error("No can create thread:(");
     if(pthread_create(&ForTroll,NULL,&_botTroll,mainsocket) ==-1)error("No can create thread:(");
     if(pthread_create(&ForPing,NULL,&_botPing,mainsocket) ==-1)error("No can create thread:(");

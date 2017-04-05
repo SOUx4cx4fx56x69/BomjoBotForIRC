@@ -22,12 +22,25 @@ while(1)
 void 
 _botTroll(int socket)
 {
-while(1)
-{
-sleep(TIMETROLL);
-Troll(socket);
-}
-}
+if(WAITMESSAGE == true)
+ while(1)
+ {
+ sleep(TIMETROLL);
+ if(WRITETHIS !=0)
+ {
+  Troll(socket);
+  WRITETHIS--;
+ }
+ 
+ }//while
+else
+ while(1)
+ {
+ sleep(TIMETROLL);
+ Troll(socket);
+ }//while
+
+}//_botTroll
 
 void
 _deleteDisableForWhile()

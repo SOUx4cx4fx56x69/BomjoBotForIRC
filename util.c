@@ -117,6 +117,8 @@ if(strcmp(setting,"MAXNUM") == 0)
  MAXNUM=(unsigned long long)atoi(set);
 if(strcmp(setting,"PINGTIME") == 0)
  PINGTIME=(unsigned long long)atoi(set);
+if(strcmp(setting,"WAITMESSAGES") == 0 && atoi(set) == 1)
+ WAITMESSAGE=true;
 bzero(setting,SIZEBUFFER);
 bzero(set,SIZEBUFFER);
 }

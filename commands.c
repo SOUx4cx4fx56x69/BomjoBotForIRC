@@ -522,31 +522,41 @@ if(*user=='!') break;
 void
 commands(int socket,char*buffer)
 {
-char user[SMALLBUFFER];
-char channel[SMALLBUFFER];
-char message[SIZEBUFFER];
-if(strstr(buffer,"KICK") !=NULL)
+if(*buffer)
 {
- printf("KICKED!");
- printf("try get channel!\n");
- printf("FULL MESSAGE: %s\n",buffer);
- getChannel(buffer,channel);
- printf("CHANNEL: %s\n",channel);
- sprintf(buffer,"JOIN %s",channel);
- sleep(3);
- writeTo(socket,buffer);
-}
-bzero(user,SMALLBUFFER);
-bzero(channel,SMALLBUFFER);
-bzero(message,SIZEBUFFER);
-getUser(buffer,user);
-getMessageAndChannel(buffer,message,channel);
-if(channel[0] =='\0')
- getNickFromUser(user,channel);
-printf("HUMAN WITH MONIKER %s WRITE IN CHANNEL/TO PM %s -> %s\n",user,channel,message );
-if(strcmp(user,OWNER) == 0 && *channel && *user && *message)
- _command(message,channel,socket);
-if(*channel && *user && *message)
- BotFunction(message,channel,socket);
+ char user[SMALLBUFFER];
+ char channel[SMALLBUFFER];
+ char message[SIZEBUFFER];
+ if(strstr(buffer,"KICK") !=NULL)
+ {
+  printf("KICKED!");
+  printf("try get channel!\n");
+  printf("FULL MESSAGE: %s\n",buffer);
+  getChannel(buffer,channel);
+  printf("CHANNEL: %s\n",channel);
+  sprintf(buffer,"JOIN %s",channel);
+  sleep(3);
+  writeTo(socket,buffer);
+ }
+ bzero(user,SMALLBUFFER);
+ bzero(channel,SMALLBUFFER);
+ bzero(message,SIZEBUFFER);
+ getUser(buffer,user);
+ getMessageAndChannel(buffer,message,channel);
+ if(channel[0] =='\0')
+  getNickFromUser(user,channel);
+ if(*user && *message && *channel)
+  {
+   printf("HUMAN WITH MONIKER %s WRITE IN CHANNEL/TO PM %s -> %s\n",user,channel,message );
+   if(WAITMESSAGE == true)
+    WRITETHIS++;
+
+   if(strcmp(user,OWNER) == 0 && *channel && *user && *message)
+    _command(message,channel,socket);
+
+   if(*channel && *user && *message)
+    BotFunction(message,channel,socket);
+  }//if 
+ }// if *buffer
 }
 
