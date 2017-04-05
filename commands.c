@@ -356,7 +356,7 @@ else //if not channel
  sprintf(tmp,"PRIVMSG %s %s",channel,normalMsg);
 writeTo(socket, tmp);
 }//SAYTHIS
-if(strstr(msg, "CLEARFUCKOFFPOINTS") != NULL )
+if(strstr(msg, "CLEAROFFPOINTS") != NULL )
 {
 FORFUCKOFF=0;
 }
@@ -491,7 +491,7 @@ else
 if(strstr(msg, "HELP") != NULL )
 {
  char tmp[SIZEBUFFER];
- sprintf(tmp,"PRIVMSG %s SAYTHIS (#channel optional) message;LEAVE #channel;JOINTO #channel;SETTOPIC topic;PSAUX;QUIT;WRITETOSERVER message;NICKSET nick;CLEARFUCKOFFPOINTS;HTTP url cookie postfield;It seems everything, the boss",channel);
+ sprintf(tmp,"PRIVMSG %s SAYTHIS (#channel optional) message;LEAVE #channel;JOINTO #channel;SETTOPIC topic;PSAUX;QUIT;WRITETOSERVER message;NICKSET nick;CLEAROFFPOINTS;HTTP url cookie postfield;It seems everything, the boss",channel);
  writeTo(socket, tmp);
 }
 
