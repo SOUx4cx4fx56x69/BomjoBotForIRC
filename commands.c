@@ -505,9 +505,13 @@ if(strstr(msg, "QUIT") != NULL )
 void
 getChannel(char*buffer,char*channel)
 {
+bzero(channel,SMALLBUFFER);
 while(*buffer !='#' && *buffer)*buffer++;
-while(*buffer!=' ' && *buffer)
- *channel++=*buffer++;
+if(*buffer == '#')
+ while(*buffer!=' ' && *buffer)
+  *channel++=*buffer++;
+else
+ *channel='\0';
 }
 void
 getNickFromUser(char*user,char*channel)
@@ -529,14 +533,14 @@ if(*buffer)
  char message[SIZEBUFFER];
  if(strstr(buffer,"KICK") !=NULL)
  {
-  printf("KICKED!");
-  printf("try get channel!\n");
   printf("FULL MESSAGE: %s\n",buffer);
   getChannel(buffer,channel);
-  printf("CHANNEL: %s\n",channel);
-  sprintf(buffer,"JOIN %s",channel);
-  sleep(3);
-  writeTo(socket,buffer);
+  if(channel !='\0')
+  {
+   printf("CHANNEL: %s\n",channel);
+   sprintf(buffer,"JOIN %s",channel);
+   writeTo(socket,buffer);
+  }
  }
  bzero(user,SMALLBUFFER);
  bzero(channel,SMALLBUFFER);
