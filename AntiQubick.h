@@ -1,6 +1,6 @@
 #define SIZEBUFFER 1024
 #define SMALLBUFFER 256
-#define SIZEPING 12
+#define SIZEPING 15
 #ifdef WIN32
 #define bzero(b,len) (memset((b), '\0', (len)), (void) 0)  
 #define bcopy(b1,b2,len) (memmove((b2), (b1), (len)), (void) 0)

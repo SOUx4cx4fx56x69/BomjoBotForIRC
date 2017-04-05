@@ -22,23 +22,33 @@ int main(int argcount, char *arguments[])
     pthread_t ForPing;
     pthread_t ForAntiDisable;//shit name
     char buffer[SIZEBUFFER];
-    char ping[SIZEPING];
+    char ping[SMALLBUFFER];
+    bzero(buffer,SIZEBUFFER);
+    bzero(ping,SMALLBUFFER);
 ////////////////////////////////////////////////////////////
+    printf("Start connecting\n");
     int mainsocket=InitClient(arguments[1],atoi(arguments[2]));
+    printf("Succefully\n");
     sprintf(buffer,"NICK %s",arguments[3]);
     writeTo(mainsocket, buffer);
-    while(strstr(buffer,"PING") == NULL)
+    readFrom(mainsocket,buffer); // for server which PING-PONG
+    if(strstr(buffer,"PING") != NULL)
     {
-    readFrom(mainsocket,buffer);
+     printf("Try get Ping-Pong\n");
+     grepPing(buffer,ping);
+     if(!ping)
+      printf("This IRC server?\n");
+     else
+     {
+      printf("Okey write PONG\n");
+      sprintf(buffer,"PONG %s",ping);
+      writeTo(mainsocket,buffer);
+      ///
+      sprintf(buffer,"PING %s",ping);//SPOOF
+      writeTo(mainsocket,buffer);
+     ///
+     }
     }
-    grepPing(buffer,ping);
-    ///
-    sprintf(buffer,"PONG %s",ping);
-    writeTo(mainsocket,buffer);
-    ///
-    sprintf(buffer,"PING %s",ping);//SPOOF
-    writeTo(mainsocket,buffer);
-    ///
     sprintf(buffer,"USER %s 8 * : %s",arguments[4],arguments[5]);
     writeTo(mainsocket, buffer);
 //////////////////////////////////////////////////////////////

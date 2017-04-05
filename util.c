@@ -15,13 +15,15 @@ void
 grepPing(char * buffer,char*ping)
 {
 memset(ping,0,SIZEPING);
-while(*buffer != ':')
+while(*buffer != ':' && *buffer)
 {
 *buffer++;
 }
-*buffer++;
+if(*buffer == ':')
 while(*buffer!='\n')
-*ping++=*buffer++;
+ *ping++=*buffer++;
+else 
+ *ping='\0';
 }//end
 
 unsigned int 
