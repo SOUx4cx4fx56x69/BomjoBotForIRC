@@ -318,7 +318,8 @@ default:
 }//else
 if(tmp_num_two == -1 || tmp_num== -1 || answer > MAXNUM)
 {
- writeTo(socket,"Which you get this fucking mathematic? Fuck this. NOPE. no-no");
+ sprintf(tmp,"PRIVMSG %s Which you get this fucking mathematic? Fuck this. NOPE. no-no",channel);
+ writeTo(socket,tmp);
  return -1;
 }
 *msg++;
