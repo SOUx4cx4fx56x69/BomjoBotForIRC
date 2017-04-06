@@ -30,3 +30,21 @@ unsigned long long PINGTIME; // ping time
 ///
 bool WAITMESSAGE; // FOR R4SAS :O
 unsigned long long WRITETHIS; // I write this shit ^_^
+
+unsigned int MAXPLAYERSINMAFIA;
+unsigned int PLAYERSINMAFIA;
+unsigned int NEEDPLAYERSINMAFIA;
+
+///
+typedef enum typePlayer
+{
+citizen,mafia
+}typePlayer;
+
+typedef struct playersMafia
+{
+char*usr;
+typePlayer type;
+}playersMafia;
+///
+playersMafia * players;

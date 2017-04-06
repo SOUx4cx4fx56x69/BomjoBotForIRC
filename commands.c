@@ -10,6 +10,7 @@ unsigned long long FORFUCKOFF=0;
 unsigned long long NEEDFORFUCKOFF;
 unsigned int TIMETROLL;//Timer for troll function
 unsigned int TIMEDW;// timer for disable disable bot(turn troll)
+
 void
 _disableForWhile(int socket);
 void deleteNewLine(char*array)
@@ -162,14 +163,41 @@ SHIT CODE one love
 ^^^^^^^^^^^^^^^^^
 */
 int 
-BotFunction(char * msg, char*channel,int socket)
+BotFunction(char * msg, char*channel,char*user,int socket)
 {
+srand ( time(NULL) );
 ///
 pthread_t _forCommands;
 ///
 if(strstr(msg, "FUCKOFF") != NULL || strstr(msg, "SHUTUP") != NULL || strstr(msg, "shutup") != NULL || strstr(msg, "завали") != NULL  || strstr(msg, "завали варюжку") != NULL  || strstr(msg, "ебалозаткни") != NULL )
   if(pthread_create(&_forCommands,NULL,&_disableForWhile,socket) ==-1)error("No can create thread:(");
 ///
+if(strstr(msg,"!JOINMAFIA") != NULL)
+{
+char tmp[SIZEBUFFER];
+if(PLAYERSINMAFIA>=MAXPLAYERSINMAFIA)
+{
+sprintf(tmp,"PRIVMSG %s %s, wait other game",channel,user);
+return writeTo(socket,tmp);
+}
+if(PLAYERSINMAFIA >= 0)
+ for(int i = PLAYERSINMAFIA-1;i>=0;i--)
+ {
+  if( strcmp(players[i].usr,user) == 0) 
+   {
+    sprintf(tmp,"PRIVMSG %s %s, you already in game",channel,user);
+    return writeTo(socket,tmp);
+   }
+ }
+char buffer[SIZEBUFFER];
+bzero(buffer,SIZEBUFFER);
+bzero(tmp,SIZEBUFFER);
+players[PLAYERSINMAFIA].type = rand() % 2;
+players[PLAYERSINMAFIA].usr = user;
+sprintf(tmp,"PRIVMSG %s %s Welcome to game, you type %d",channel,players[PLAYERSINMAFIA].usr,players[PLAYERSINMAFIA].type);
+writeTo(socket,tmp);
+PLAYERSINMAFIA++;
+}
 if(strstr(msg, "INQUBINOID") != NULL 
 || strstr(msg, "INSQUARE") != NULL 
 ||  strstr(msg, "INPENTA") != NULL 
@@ -559,7 +587,7 @@ if(*buffer)
     _command(message,channel,socket);
 
    if(*channel && *user && *message)
-    BotFunction(message,channel,socket);
+    BotFunction(message,channel,user,socket);
   }//if 
  }// if *buffer
 }

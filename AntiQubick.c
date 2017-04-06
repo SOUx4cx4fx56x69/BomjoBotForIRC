@@ -11,6 +11,10 @@ unsigned long long MAXNUM;
 unsigned long long PINGTIME;
 bool WAITMESSAGE=false;
 unsigned long long WRITETHIS;
+unsigned int MAXPLAYERSINMAFIA=4;
+unsigned int NEEDPLAYERSINMAFIA=2;
+unsigned int PLAYERSINMAFIA=0;
+playersMafia * players;
 int main(int argcount, char *arguments[])
 {
    if(argcount < 7)
@@ -53,6 +57,8 @@ int main(int argcount, char *arguments[])
     readFrom(mainsocket,buffer);
     printf("%s\n",buffer);
     bzero(buffer,SIZEBUFFER);
+    playersMafia test[MAXPLAYERSINMAFIA];
+    players=&test;
     printf("start threads\n");
     if(pthread_create(&ForBot,NULL,&_botRead,mainsocket) ==-1)error("No can create thread:(");
     if(pthread_create(&ForTroll,NULL,&_botTroll,mainsocket) ==-1)error("No can create thread:(");
