@@ -316,7 +316,7 @@ default:
  break;
 }//switch
 }//else
-if(tmp_num_two == -1 || tmp_num== -1 || answer > MAXNUM)
+if(tmp_num_two == -1 || tmp_num== -1 || answer > MAXNUM || answer == 0)
 {
  sprintf(tmp,"PRIVMSG %s Which you get this fucking mathematic? Fuck this. NOPE. no-no",channel);
  writeTo(socket,tmp);
@@ -333,11 +333,8 @@ if(tmp_num_two == -1 || tmp_num== -1 || answer > MAXNUM)
 SHIT CODE one love
 */
 printf("%d\n",answer);
-if(answer != 0)
- {
-  sprintf(tmp,"PRIVMSG %s %s %d",channel,"I know the answer",answer);  
-  writeTo(socket, tmp);
- }
+sprintf(tmp,"PRIVMSG %s %s %d",channel,"I know the answer",answer);  
+writeTo(socket, tmp);
 }//MATH
 ///
 }
