@@ -2,8 +2,8 @@
 #define SMALLBUFFER 256
 #define SIZEPING 15
 #ifdef WIN32
-#define bzero(b,len) (memset((b), '\0', (len)), (void) 0)  
-#define bcopy(b1,b2,len) (memmove((b2), (b1), (len)), (void) 0)
+#define bzero(b,len) memset(b, '\0', len)
+#define bcopy(b1,b2,len) memmove(b2, b1, len)
 #endif
 typedef __SIZE_TYPE__ size_t;
 typedef enum bool
@@ -63,7 +63,9 @@ void QUIT(int socket);
 void commands(int socket,char*buffer);
 void Troll(int socket);
 //
+#ifndef WIN32
 void bzero(void *s, size_t n);
+#endif
 char *strcpy(char *dest, const char *src);
 int strcmp(const char *s1, const char *s2);
 int atoi(const char *nptr);
