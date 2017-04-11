@@ -39,25 +39,31 @@ int main(int argcount, char *arguments[])
     printf("Succefully\n");
     sprintf(buffer,"NICK %s",arguments[3]);
     writeTo(mainsocket, buffer);
-    readFrom(mainsocket,buffer); // for server which PING-PONG
-    PingPong(buffer,&mainsocket);
-    sprintf(buffer,"USER %s 8 * : %s",arguments[4],arguments[5]);
-    writeTo(mainsocket, buffer);
-//////////////////////////////////////////////////////////////
+
     do
     {
      readFrom(mainsocket,buffer);
      PingPong(buffer,&mainsocket);
-    }while( strstr(buffer,"nospoof") != NULL || strstr(buffer,"PING") != NULL  );
+     printf("%s\n",buffer);
+    }while( strstr(buffer,"nospoof") != NULL || strstr(buffer,"PING") != NULL  ); //for ping-pong server
 
-    readFrom(mainsocket,buffer);
-    printf("%s\n",buffer);
+    sprintf(buffer,"USER %s 8 * : %s",arguments[4],arguments[5]);
+    writeTo(mainsocket, buffer);
+//////////////////////////////////////////////////////////////
     printf("INFO: Join to channel\n");
     printf("....\n");
     sprintf(buffer,"JOIN %s",DEFAULT_CHANNEL);
     writeTo(mainsocket,buffer);
     readFrom(mainsocket,buffer);
-
+    if(strstr(buffer,"nospoof") != NULL || strstr(buffer,"PING") != NULL) //for mystic servers
+    {
+    PingPong(buffer,&mainsocket);
+    printf("WARNING: Mystic pong-pong\n");
+    printf("....\n");
+    sprintf(buffer,"JOIN %s",DEFAULT_CHANNEL);
+    writeTo(mainsocket,buffer);
+    readFrom(mainsocket,buffer);
+    }
     printf("%s\n",buffer);
     bzero(buffer,SIZEBUFFER);
     players = calloc(sizeof(playersMafia),MAXPLAYERSINMAFIA);
