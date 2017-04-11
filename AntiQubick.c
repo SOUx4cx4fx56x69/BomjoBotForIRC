@@ -44,19 +44,20 @@ int main(int argcount, char *arguments[])
     sprintf(buffer,"USER %s 8 * : %s",arguments[4],arguments[5]);
     writeTo(mainsocket, buffer);
 //////////////////////////////////////////////////////////////
-    while(strstr(buffer,"nospoof") != NULL || strstr(buffer,"PING") != NULL )
+    do
     {
-     PingPong(buffer,&mainsocket);
      readFrom(mainsocket,buffer);
-    }
+     PingPong(buffer,&mainsocket);
+    }while( strstr(buffer,"nospoof") != NULL || strstr(buffer,"PING") != NULL  );
+
     readFrom(mainsocket,buffer);
-    PingPong(buffer,&mainsocket);
     printf("%s\n",buffer);
     printf("INFO: Join to channel\n");
     printf("....\n");
     sprintf(buffer,"JOIN %s",DEFAULT_CHANNEL);
     writeTo(mainsocket,buffer);
     readFrom(mainsocket,buffer);
+
     printf("%s\n",buffer);
     bzero(buffer,SIZEBUFFER);
     players = calloc(sizeof(playersMafia),MAXPLAYERSINMAFIA);

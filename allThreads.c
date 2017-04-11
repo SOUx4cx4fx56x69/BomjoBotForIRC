@@ -72,9 +72,14 @@ printf("Message for server(wait): ");
  }
 if(tmp <= SIZEBUFFER) buffer[tmp++]='\0';
 else buffer[tmp]='\0';
+if(tmp > 1 )
+{
+ printf("Write this to server -> %s\n",buffer);
+ writeTo(*s,buffer);
+}
+else
+ printf("Write much message\n");
 tmp=0;
-printf("Write this to server -> %s\n",buffer);
-writeTo(*s,buffer);
 free(buffer);
 }
 
