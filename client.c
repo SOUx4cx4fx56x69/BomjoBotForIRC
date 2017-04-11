@@ -13,7 +13,6 @@
  #include <netinet/in.h>
  #include <netdb.h>
 #endif
-#define NULL 0
 int 
 InitClient(char*host,int portno)
 {

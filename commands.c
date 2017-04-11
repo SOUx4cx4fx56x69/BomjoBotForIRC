@@ -46,7 +46,7 @@ count = 0;
 bzero(ps,MAXPS);
 }//IF
 }//WHILE
-close(tmpFile);
+fclose(tmpFile);
 }//END
 
 void getUser(char*buffer,char*user)
@@ -178,7 +178,8 @@ char tmp[SIZEBUFFER];
 if(PLAYERSINMAFIA>=MAXPLAYERSINMAFIA)
 {
 sprintf(tmp,"PRIVMSG %s %s, wait other game",channel,user);
-return writeTo(socket,tmp);
+writeTo(socket,tmp);
+return -1;
 }
 if(PLAYERSINMAFIA >= 0)
  for(int i = PLAYERSINMAFIA-1;i>=0;i--)
@@ -186,7 +187,8 @@ if(PLAYERSINMAFIA >= 0)
   if( strcmp(players[i].usr,user) == 0) 
    {
     sprintf(tmp,"PRIVMSG %s %s, you already in game",channel,user);
-    return writeTo(socket,tmp);
+    writeTo(socket,tmp);
+    return -1;
    }
  }
 char buffer[SIZEBUFFER];
@@ -318,8 +320,10 @@ default:
 }//else
 if(tmp_num_two == -1 || tmp_num== -1 || answer > MAXNUM)
 {
+/*
  sprintf(tmp,"PRIVMSG %s Which you get this fucking mathematic? Fuck this. NOPE. no-no",channel);
  writeTo(socket,tmp);
+*/
  return -1;
 }
 *msg++;
@@ -338,12 +342,13 @@ if(answer != 0)
   sprintf(tmp,"PRIVMSG %s %s %d",channel,"I know the answer",answer);  
   writeTo(socket, tmp);
  }
+/*
 else if(answer == 0)
 {
  sprintf(tmp,"PRIVMSG %s Which you get this fucking mathematic? Fuck this. NOPE. no-no",channel);
  writeTo(socket,tmp);
 }
-
+*/
 }//MATH
 ///
 }

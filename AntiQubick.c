@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <string.h>
+/*in future*/
+//#include<ncurses.h>
+//#include<menu.h>
 #include "AntiQubick.h"
 char OWNER[256];// = ":WEREWOLF!WEREWOLF@lfshvsjjph2aqemhdrvaccgxc5ss54kodbn3vjftxosqje6ak6kq.b32.i2p";
 char OWNER_NICK[256];// = "WEREWOLF";
@@ -27,6 +30,7 @@ int main(int argcount, char *arguments[])
     pthread_t ForTroll;
     pthread_t ForPing;
     pthread_t ForAntiDisable;//shit name
+    pthread_t ForFgets;
     char buffer[SIZEBUFFER];
     bzero(buffer,SIZEBUFFER);
 ////////////////////////////////////////////////////////////
@@ -40,33 +44,32 @@ int main(int argcount, char *arguments[])
     sprintf(buffer,"USER %s 8 * : %s",arguments[4],arguments[5]);
     writeTo(mainsocket, buffer);
 //////////////////////////////////////////////////////////////
+    while(strstr(buffer,"nospoof") != NULL || strstr(buffer,"PING") != NULL )
+    {
+     PingPong(buffer,&mainsocket);
+     readFrom(mainsocket,buffer);
+    }
     readFrom(mainsocket,buffer);
     PingPong(buffer,&mainsocket);
     printf("%s\n",buffer);
     printf("INFO: Join to channel\n");
-    while(strstr(buffer,"nospoof") != NULL || strstr(buffer,"PING") != NULL )
-    {
-    PingPong(buffer,&mainsocket);
-    sprintf(buffer,"JOIN %s",DEFAULT_CHANNEL);
-    writeTo(mainsocket,buffer);
-    readFrom(mainsocket,buffer);
-    }
     printf("....\n");
     sprintf(buffer,"JOIN %s",DEFAULT_CHANNEL);
     writeTo(mainsocket,buffer);
     readFrom(mainsocket,buffer);
     printf("%s\n",buffer);
     bzero(buffer,SIZEBUFFER);
-    playersMafia test[MAXPLAYERSINMAFIA];
-    players=&test;
+    players = calloc(sizeof(playersMafia),MAXPLAYERSINMAFIA);
     printf("start threads\n");
-    if(pthread_create(&ForBot,NULL,&_botRead,mainsocket) ==-1)error("No can create thread:(");
-    if(pthread_create(&ForTroll,NULL,&_botTroll,mainsocket) ==-1)error("No can create thread:(");
-    if(pthread_create(&ForPing,NULL,&_botPing,mainsocket) ==-1)error("No can create thread:(");
-    if(pthread_create(&ForAntiDisable,NULL,&_deleteDisableForWhile,NULL) ==-1)error("No can create thread:(");
+    if(pthread_create(&ForBot,NULL, _botRead, &mainsocket) ==-1)error("No can create thread:(");
+    if(pthread_create(&ForTroll,NULL, _botTroll, &mainsocket) ==-1)error("No can create thread:(");
+    if(pthread_create(&ForPing,NULL, _botPing ,&mainsocket) ==-1)error("No can create thread:(");
+    if(pthread_create(&ForAntiDisable,NULL, _deleteDisableForWhile ,NULL) ==-1)error("No can create thread:(");
+    if(pthread_create(&ForFgets,NULL, _FgetMessage ,&mainsocket) ==-1)error("No can create thread:(");
     pthread_join(ForBot,NULL);
     pthread_join(ForTroll,NULL);
     pthread_join(ForPing,NULL);
+    //pthread_join(ForFgets,NULL); auto close with all programm
     stopClient(&mainsocket);
     main(7,arguments);
 }

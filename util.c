@@ -6,6 +6,7 @@
 void 
 error(const char *msg)
 {
+    //endwin();
     fprintf(stderr,msg);
     puts("");
     exit(-1);
@@ -72,7 +73,7 @@ while((ch=fgetc(trollFile)) !='\n')*buffer++=ch;
 break;
 } 
 }
-close(trollFile);
+fclose(trollFile);
 }
 
 void 
@@ -132,7 +133,7 @@ unsigned int counter=0;
 char setting[SIZEBUFFER];
 char set[SIZEBUFFER];
 char ch;
-bool _thisSet=false;
+_Bool _thisSet=false;
 while ( (ch = fgetc( config )) != EOF)
 {
 if(ch=='='){_thisSet=true;setting[counter++]='\0';counter=0;}

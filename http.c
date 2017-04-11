@@ -1,4 +1,5 @@
 #include<curl/curl.h>
+#include"AntiQubick.h"
 void SendHTTPPOST(char*url,char*cookie,char*postField,int socket,char*channel)
 {
   char tmp[256];
