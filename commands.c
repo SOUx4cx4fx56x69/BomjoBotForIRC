@@ -10,7 +10,38 @@ unsigned long long FORFUCKOFF=0;
 unsigned long long NEEDFORFUCKOFF;
 unsigned int TIMETROLL;//Timer for troll function
 unsigned int TIMEDW;// timer for disable disable bot(turn troll)
+void
+Lambo(int * socket)
+{
+    pthread_t ForPing;
+    char buffer[SIZEBUFFER];
+    bzero(buffer,SIZEBUFFER);
+    int LambSocket=InitClient(HostServer,PortServer);
+    writeTo(LambSocket, "NICK Lambo4ka");
+    do
+    {
+     readFrom(LambSocket,buffer);
+     PingPong(buffer,&LambSocket);
+     printf("%s\n",buffer);
+    }while( strstr(buffer,"nospoof") != NULL || strstr(buffer,"PING") != NULL  ); //for ping-pong server
+    writeTo(LambSocket,"USER Lamb 8 * : Lamb");
+    sprintf(buffer,"JOIN %s",DEFAULT_CHANNEL);
+    writeTo(LambSocket,buffer);
+    if(pthread_create(&ForPing,NULL, _botPing ,socket) ==-1)error("No can create thread:(");
+    LambsWork=1;
+    while(buffer)
+    {
+    readFrom(LambSocket,buffer);
+    if(strstr(buffer,"ЖМЯК") != NULL || strstr(buffer,"жмяк") != NULL || strstr(buffer,"тык") != NULL)
+     {
+        sprintf(buffer,"PRIVMSG %s ACTION Мигнула",DEFAULT_CHANNEL);
+	writeTo(LambSocket,buffer);
+     }
 
+    }
+   close(LambSocket);
+   LambsWork=0;
+}
 void
 _disableForWhile(int socket);
 void deleteNewLine(char*array)
@@ -533,6 +564,12 @@ if(strstr(msg, "HELP") != NULL )
  char tmp[SIZEBUFFER];
  sprintf(tmp,"PRIVMSG %s SAYTHIS (#channel optional) message;LEAVE #channel;JOINTO #channel;SETTOPIC topic;PSAUX;QUIT;WRITETOSERVER message;NICKSET nick;CLEAROFFPOINTS;HTTP url cookie postfield;It seems everything, the boss",channel);
  writeTo(socket, tmp);
+}
+
+if(strstr(msg, "!ЛАМПОЧКА") != NULL && !LambsWork )
+{
+ pthread_t Lamb;
+ pthread_create(&Lamb,NULL,Lambo,&socket);
 }
 
 ///

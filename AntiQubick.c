@@ -17,12 +17,17 @@ unsigned long long WRITETHIS;
 unsigned int MAXPLAYERSINMAFIA=4;
 unsigned int NEEDPLAYERSINMAFIA=2;
 unsigned int PLAYERSINMAFIA=0;
+char HostServer[126];
+int PortServer;
 playersMafia * players;
+short LambsWork=0; //shit
 int main(int argcount, char *arguments[])
 {
    if(argcount < 7)
     error("./programm host port nick UserName RealName configFile");
    InitConfig(arguments[6]);
+   strcpy(HostServer,arguments[1]);
+   PortServer=atoi(arguments[2]);
    printf("%d debug time\n",PINGTIME);
    printf("\n%s %s %s\n",OWNER,OWNER_NICK,DEFAULT_CHANNEL); //debug
 ////////////////////////////////////////////////////////////
@@ -35,7 +40,7 @@ int main(int argcount, char *arguments[])
     bzero(buffer,SIZEBUFFER);
 ////////////////////////////////////////////////////////////
     printf("Start connecting\n");
-    int mainsocket=InitClient(arguments[1],atoi(arguments[2]));
+    int mainsocket=InitClient(HostServer,PortServer);
     printf("Succefully\n");
     sprintf(buffer,"NICK %s",arguments[3]);
     writeTo(mainsocket, buffer);

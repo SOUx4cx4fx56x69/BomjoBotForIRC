@@ -35,7 +35,9 @@ unsigned long long WRITETHIS; // I write this shit ^_^
 unsigned int MAXPLAYERSINMAFIA;
 unsigned int PLAYERSINMAFIA;
 unsigned int NEEDPLAYERSINMAFIA;
-
+char HostServer[126];
+int PortServer;
+short LambsWork;
 ///
 typedef enum typePlayer
 {
