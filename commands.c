@@ -32,7 +32,7 @@ Lambo(int * socket)
     while(buffer)
     {
     readFrom(LambSocket,buffer);
-    if(strstr(buffer,"ЖМЯК") != NULL || strstr(buffer,"жмяк") != NULL || strstr(buffer,"тык") != NULL)
+    if(strstr(buffer,"ЖМЯК") != NULL || strstr(buffer,"жмяк") != NULL || strstr(buffer,"тык") != NULL || strstr(buffer,"чик") != NULL)
      {
         sprintf(buffer,"PRIVMSG %s ACTION Мигнула",DEFAULT_CHANNEL);
 	writeTo(LambSocket,buffer);
