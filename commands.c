@@ -27,7 +27,7 @@ Lambo(int * socket)
     writeTo(LambSocket,"USER Lamb 8 * : Lamb");
     sprintf(buffer,"JOIN %s",DEFAULT_CHANNEL);
     writeTo(LambSocket,buffer);
-    if(pthread_create(&ForPing,NULL, _botPing ,LambSocket) ==-1)error("No can create thread:(");
+    if(pthread_create(&ForPing,NULL, _botPing ,&LambSocket) ==-1)error("No can create thread:(");
     LambsWork=1;
     while(buffer)
     {
@@ -565,10 +565,10 @@ if(strstr(msg, "HELP") != NULL )
  sprintf(tmp,"PRIVMSG %s SAYTHIS (#channel optional) message;LEAVE #channel;JOINTO #channel;SETTOPIC topic;PSAUX;QUIT;WRITETOSERVER message;NICKSET nick;CLEAROFFPOINTS;HTTP url cookie postfield;!CLEARLAMB;!ЛАМПОЧКА;It seems everything, the boss",channel);
  writeTo(socket, tmp);
 }
+
 if(strstr(msg, "!CLEARLAMB") != NULL && LambsWork )
-{
-LambsWork=0;
-}
+ LambsWork=0;
+
 if(strstr(msg, "!ЛАМПОЧКА") != NULL && !LambsWork )
 {
   printf("Start Lamb\n");
