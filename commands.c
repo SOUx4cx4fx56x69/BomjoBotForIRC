@@ -27,7 +27,7 @@ Lambo(int * socket)
     writeTo(LambSocket,"USER Lamb 8 * : Lamb");
     sprintf(buffer,"JOIN %s",DEFAULT_CHANNEL);
     writeTo(LambSocket,buffer);
-    if(pthread_create(&ForPing,NULL, _botPing ,socket) ==-1)error("No can create thread:(");
+    if(pthread_create(&ForPing,NULL, _botPing ,LambSocket) ==-1)error("No can create thread:(");
     LambsWork=1;
     while(buffer)
     {
