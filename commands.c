@@ -562,14 +562,18 @@ else
 if(strstr(msg, "HELP") != NULL )
 {
  char tmp[SIZEBUFFER];
- sprintf(tmp,"PRIVMSG %s SAYTHIS (#channel optional) message;LEAVE #channel;JOINTO #channel;SETTOPIC topic;PSAUX;QUIT;WRITETOSERVER message;NICKSET nick;CLEAROFFPOINTS;HTTP url cookie postfield;It seems everything, the boss",channel);
+ sprintf(tmp,"PRIVMSG %s SAYTHIS (#channel optional) message;LEAVE #channel;JOINTO #channel;SETTOPIC topic;PSAUX;QUIT;WRITETOSERVER message;NICKSET nick;CLEAROFFPOINTS;HTTP url cookie postfield;!CLEARLAMB;!ЛАМПОЧКА;It seems everything, the boss",channel);
  writeTo(socket, tmp);
 }
-
+if(strstr(msg, "!CLEARLAMB") != NULL && LambsWork )
+{
+LambsWork=0;
+}
 if(strstr(msg, "!ЛАМПОЧКА") != NULL && !LambsWork )
 {
- pthread_t Lamb;
- pthread_create(&Lamb,NULL,Lambo,&socket);
+  printf("Start Lamb\n");
+  pthread_t Lamb;
+  pthread_create(&Lamb,NULL,Lambo,&socket);
 }
 
 ///
