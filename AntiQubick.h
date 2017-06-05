@@ -5,6 +5,8 @@
 #define bzero(b,len) memset(b, '\0', len)
 #define bcopy(b1,b2,len) memmove(b2, b1, len)
 #endif
+
+typedef unsigned long int pthread_t;
 typedef __SIZE_TYPE__ size_t;
 typedef enum bool
 {
@@ -77,3 +79,6 @@ int raise(int sig);
 char *strstr(const char *haystack, const char *needle);
 int close(int fd);
 extern unsigned int sleep (unsigned int __seconds);
+
+pthread_t ForTroll;
+
