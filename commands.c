@@ -32,11 +32,14 @@ Lambo(int * socket)
     while(buffer)
     {
     readFrom(LambSocket,buffer);
-    if(strstr(buffer,"ЖМЯК") != NULL || strstr(buffer,"жмяк") != NULL || strstr(buffer,"тык") != NULL || strstr(buffer,"чик") != NULL)
+    printf("%s\n",buffer);
+    if(strstr(buffer,"ЖМЯК") != NULL || strstr(buffer,"жмяк") != NULL || strstr(buffer,"тык") != NULL || strstr(buffer,"чик") != NULL || strstr(buffer,"чпок"))
      {
         sprintf(buffer,"PRIVMSG %s ACTION Мигнула",DEFAULT_CHANNEL);
 	writeTo(LambSocket,buffer);
+	sleep(10);
      }
+    if(strstr(buffer,"KICK")) {sprintf(buffer,"JOIN %s",DEFAULT_CHANNEL);sleep(30);writeTo(LambSocket,buffer); }
 
     }
    close(LambSocket);
@@ -203,7 +206,19 @@ pthread_t _forCommands;
 if(strstr(msg, "FUCKOFF") != NULL || strstr(msg, "SHUTUP") != NULL || strstr(msg, "shutup") != NULL || strstr(msg, "завали") != NULL  || strstr(msg, "завали варюжку") != NULL  || strstr(msg, "ебалозаткни") != NULL )
   if(pthread_create(&_forCommands,NULL,&_disableForWhile,socket) ==-1)error("No can create thread:(");
 ///
-if(strstr(msg,"!JOINMAFIA") != NULL)
+else if(
+strstr(msg, "плазик") != NULL || 
+strstr(msg, "плаз") != NULL || 
+strstr(msg, "Plaz") != NULL || 
+strstr(msg, "PLAZ") != NULL || 
+strstr(msg, "ПЛАЗ") != NULL 
+)
+{
+char tmp[SIZEBUFFER];
+sprintf(tmp,"PRIVMSG %s Крыша едет, хуй стоит, крыша едет - хуй стоит, а плаза дома нет.",channel);
+writeTo(socket,tmp);
+}
+else if(strstr(msg,"!JOINMAFIA") != NULL)
 {
 char tmp[SIZEBUFFER];
 if(PLAYERSINMAFIA>=MAXPLAYERSINMAFIA)
@@ -231,7 +246,7 @@ sprintf(tmp,"PRIVMSG %s %s Welcome to game, you type %d",channel,players[PLAYERS
 writeTo(socket,tmp);
 PLAYERSINMAFIA++;
 }
-if(strstr(msg, "INQUBINOID") != NULL 
+else if(strstr(msg, "INQUBINOID") != NULL 
 || strstr(msg, "INSQUARE") != NULL 
 ||  strstr(msg, "INPENTA") != NULL 
 ||  strstr(msg, "*") != NULL 
@@ -427,11 +442,11 @@ else //if not channel
  sprintf(tmp,"PRIVMSG %s %s",channel,normalMsg);
 writeTo(socket, tmp);
 }//SAYTHIS
-if(strstr(msg, "CLEAROFFPOINTS") != NULL )
+else if(strstr(msg, "CLEAROFFPOINTS") != NULL )
 {
 FORFUCKOFF=0;
 }
-if(strstr(msg, "JOINTO") != NULL )
+else if(strstr(msg, "JOINTO") != NULL )
 {
 char tmp[SIZEBUFFER];
 char normalMsg[SIZEBUFFER];
@@ -457,7 +472,7 @@ else
 }//END if(strstr(msg, "JOINTO") != NULL )
 ///
 
-if(strstr(msg, "NICKSET") != NULL ) 
+else if(strstr(msg, "NICKSET") != NULL ) 
 {
 char tmp[SIZEBUFFER];
 char normalMsg[SIZEBUFFER];
@@ -472,7 +487,7 @@ _Message(msg,normalMsg);
  writeTo(socket, tmp);
 }
 
-if(strstr(msg, "HTTP") != NULL ) 
+else if(strstr(msg, "HTTP") != NULL ) 
 {
 char tmp[SIZEBUFFER];
 char normalMsg[SIZEBUFFER];
@@ -493,7 +508,7 @@ printf("URL=%s COOKIE=%s POSTFIELD=%s\n",url,cookie,postfield);
 SendHTTPPOST(url,cookie,postfield,socket,channel);
 }
 
-if(strstr(msg, "WRITETOSERVER") != NULL ) 
+else if(strstr(msg, "WRITETOSERVER") != NULL ) 
 {
 char tmp[SIZEBUFFER];
 char normalMsg[SIZEBUFFER];
@@ -507,7 +522,7 @@ _Message(msg,normalMsg);
 }
 ///
 
-if(strstr(msg, "SETTOPIC") != NULL )
+else if(strstr(msg, "SETTOPIC") != NULL )
 {
 char tmp[SIZEBUFFER];
 char normalMsg[SIZEBUFFER];
@@ -534,7 +549,7 @@ writeTo(socket, tmp);
 }//SETTOPIC
 ///
 
-if(strstr(msg, "LEAVE") != NULL )
+else if(strstr(msg, "LEAVE") != NULL )
 {
 char tmp[SIZEBUFFER];
 char normalMsg[SIZEBUFFER];
@@ -559,17 +574,17 @@ else
 }//ELSE
 }//END if(strstr(msg, "JOINTO") != NULL )
 ///
-if(strstr(msg, "HELP") != NULL )
+else if(strstr(msg, "HELP") != NULL )
 {
  char tmp[SIZEBUFFER];
  sprintf(tmp,"PRIVMSG %s SAYTHIS (#channel optional) message;LEAVE #channel;JOINTO #channel;SETTOPIC topic;PSAUX;QUIT;WRITETOSERVER message;NICKSET nick;CLEAROFFPOINTS;HTTP url cookie postfield;!CLEARLAMB;!ЛАМПОЧКА;It seems everything, the boss",channel);
  writeTo(socket, tmp);
 }
 
-if(strstr(msg, "!CLEARLAMB") != NULL && LambsWork )
+else if(strstr(msg, "!CLEARLAMB") != NULL && LambsWork )
  LambsWork=0;
 
-if(strstr(msg, "!ЛАМПОЧКА") != NULL && !LambsWork )
+else if(strstr(msg, "!ЛАМПОЧКА") != NULL && !LambsWork )
 {
   printf("Start Lamb\n");
   pthread_t Lamb;
@@ -577,10 +592,21 @@ if(strstr(msg, "!ЛАМПОЧКА") != NULL && !LambsWork )
 }
 
 ///
-if(strstr(msg, "PSAUX") != NULL ) 
+else if(strstr(msg, "PSAUX") != NULL ) 
  if(pthread_create(&_forCommands,NULL,&getProccess,socket) ==-1)error("No can create thread:(");
-if(strstr(msg, "QUIT") != NULL )
+else if(strstr(msg, "QUIT") != NULL )
  QUIT(socket);
+else if(strstr(msg,"STARTFLOOD") != NULL)
+ {
+  WAITMESSAGE=false;
+  TIMETROLL=1;
+ }
+else if(strstr(msg,"STOPFLOOD") != NULL)
+{
+  WAITMESSAGE=true;
+  TIMETROLL=666;
+}
+
 }
 
 void

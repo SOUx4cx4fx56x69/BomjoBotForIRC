@@ -102,23 +102,23 @@ _setSetting(char*setting,char*set)
 {
 if(strcmp(setting,"CHANNEL") == 0)
  strcpy(DEFAULT_CHANNEL,set);
-if(strcmp(setting,"owner") == 0)
+else if(strcmp(setting,"owner") == 0)
  strcpy(OWNER,set);
-if(strcmp(setting,"OWNER_NICK") == 0)
+else if(strcmp(setting,"OWNER_NICK") == 0)
  strcpy(OWNER_NICK,set);
-if(strcmp(setting,"NEEDFORDISABLE") == 0)
+else if(strcmp(setting,"NEEDFORDISABLE") == 0)
  NEEDFORFUCKOFF=(unsigned long long)atoi(set);
-if(strcmp(setting,"TIMETROLL") == 0)
+else if(strcmp(setting,"TIMETROLL") == 0)
  TIMETROLL=(unsigned int)atoi(set);
-if(strcmp(setting,"TIMEDW") == 0)
+else if(strcmp(setting,"TIMEDW") == 0)
  TIMEDW=(unsigned int)atoi(set);
-if(strcmp(setting,"MAXPOWN") == 0)
+else if(strcmp(setting,"MAXPOWN") == 0)
  MAXPOWN=(unsigned long long)atoi(set);
-if(strcmp(setting,"MAXNUM") == 0)
+else if(strcmp(setting,"MAXNUM") == 0)
  MAXNUM=(unsigned long long)atoi(set);
-if(strcmp(setting,"PINGTIME") == 0)
+else if(strcmp(setting,"PINGTIME") == 0)
  PINGTIME=(unsigned long long)atoi(set);
-if(strcmp(setting,"WAITMESSAGES") == 0 && atoi(set) == 1)
+else if(strcmp(setting,"WAITMESSAGES") == 0 && atoi(set) == 1)
  WAITMESSAGE=true;
 bzero(setting,SIZEBUFFER);
 bzero(set,SIZEBUFFER);
