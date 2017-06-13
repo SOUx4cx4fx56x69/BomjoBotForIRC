@@ -10,8 +10,9 @@ unsigned long long FORFUCKOFF=0;
 unsigned long long NEEDFORFUCKOFF;
 unsigned int TIMETROLL;//Timer for troll function
 unsigned int TIMEDW;// timer for disable disable bot(turn troll)
+
 void
-Lambo(int * socket)
+Lambo(void)
 {
     pthread_t ForPing;
     char buffer[SIZEBUFFER];
@@ -589,7 +590,7 @@ else if(strstr(msg, "!ЛАМПОЧКА") != NULL && !LambsWork )
 {
   printf("Start Lamb\n");
   pthread_t Lamb;
-  pthread_create(&Lamb,NULL,Lambo,&socket);
+  pthread_create(&Lamb,NULL,Lambo,NULL);
 }
 
 ///
