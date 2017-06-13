@@ -2,9 +2,6 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <string.h>
-
-#include <time.h>
-
 /*in future*/
 //#include<ncurses.h>
 //#include<menu.h>
@@ -75,7 +72,6 @@ int main(int argcount, char *arguments[])
     printf("%s\n",buffer);
     bzero(buffer,SIZEBUFFER);
 //    players = calloc(sizeof(playersMafia),MAXPLAYERSINMAFIA);
-    srand ( time(NULL) );
     printf("start threads\n");
     if(pthread_create(&ForBot,NULL, _botRead, &mainsocket) ==-1)error("No can create thread:(");
     if(pthread_create(&ForTroll,NULL, _botTroll, &mainsocket) ==-1)error("No can create thread:(");

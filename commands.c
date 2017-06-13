@@ -4,7 +4,6 @@
 #include<unistd.h>
 #include<pthread.h>
 #include <time.h>
-
 #include<math.h>
 #define MAXPS 5012
 #include "AntiQubick.h"
@@ -72,6 +71,7 @@ if(*array =='\n') *array='\0';
 *array++;
 }
 }
+
 void getProccess(int socket)//SHITCODE
 {
 char ps[MAXPS];
@@ -124,6 +124,7 @@ while(*buffer!='\n' && *buffer)
 *message++=*buffer++;
 }///
 }
+
 void 
 _Message(char*buffer,char*dest)
 {
@@ -132,6 +133,7 @@ while(*buffer && *buffer!=' ')
 while(*buffer)
  *dest++=*buffer++;
 }
+
 void
 _Channel(char*src,char*dest)
 {//shitcode
@@ -140,6 +142,7 @@ while(*src!=' ' && *src)
  *dest++=*src++;
  *dest++='\0';
 }
+
 void
 _DeleteChannelFromMsg(char *dest,char*src)
 {
@@ -160,6 +163,7 @@ printf("Owner write in channel %s  this command %s with atribute %s\n",channel,c
 }
 THIS DEBUG FUNCTION
 */
+
 long long 
 ToMeasures(long long number, measures what)
 {
@@ -216,13 +220,24 @@ SHIT CODE one love
 int 
 BotFunction(char * msg, char*channel,char*user,int socket)
 {
-
+srand ( time(NULL) );
 ///
 pthread_t _forCommands;
 ///
-if(strstr(msg, "FUCKOFF") != NULL || strstr(msg, "SHUTUP") != NULL || strstr(msg, "shutup") != NULL || strstr(msg, "завали") != NULL  || strstr(msg, "завали варюжку") != NULL  || strstr(msg, "ебалозаткни") != NULL )
+if(strstr(msg, "FUCKOFF") != NULL || strstr(msg, "SHUTUP") != NULL || strstr(msg, "shutup") != NULL || strstr(msg, "завали") != NULL  || strstr(msg, "завали варюжку") != NULL  || strstr(msg, "ебалозаткни") != NULL ){
   if(pthread_create(&_forCommands,NULL,&_disableForWhile,socket) ==-1)error("No can create thread:(");
+}
 ///
+else if(strstr(msg,"!CUBE") != NULL)
+{
+        register unsigned int value =  rand() % 6; 
+        char tmp[SIZEBUFFER];
+        if ( ! value )
+         sprintf(tmp,"PRIVMSG %s ACTION The Cube fell out",DEFAULT_CHANNEL);
+        else
+         sprintf(tmp,"PRIVMSG %s ACTION %d",DEFAULT_CHANNEL,value);
+        writeTo(socket,tmp);
+}
 else if(
 strstr(msg, "плазик") != NULL || 
 strstr(msg, "плаз") != NULL || 
@@ -599,17 +614,6 @@ else if(strstr(msg, "HELP") != NULL )
  writeTo(socket, tmp);
 }
 
-else if(strstr(msg,"!CUBE") != NULL)
-{
-        register unsigned int value =  rand() % 6; 
-        char tmp[SIZEBUFFER];
-        if ( ! value )
-         sprintf(tmp,"PRIVMSG %s ACTION The Cube fell out",DEFAULT_CHANNEL);
-        else
-         sprintf(tmp,"PRIVMSG %s ACTION %d",DEFAULT_CHANNEL,value);
-        writeTo(socket,tmp);
-}
-
 else if(strstr(msg, "!CLEARLAMB") != NULL && LambsWork )
  LambsWork=0;
 
@@ -661,6 +665,7 @@ if(*buffer == '#')
 else
  *channel='\0';
 }
+
 void
 getNickFromUser(char*user,char*channel)
 {
@@ -671,6 +676,7 @@ if(*user=='!') break;
 *channel++=*user++;
 }
 }
+
 void
 commands(int socket,char*buffer)
 {
