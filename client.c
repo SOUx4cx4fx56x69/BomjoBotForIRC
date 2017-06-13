@@ -13,6 +13,7 @@
  #include <netinet/in.h>
  #include <netdb.h>
 #endif
+
 int 
 InitClient(char*host,int portno)
 {
@@ -39,12 +40,14 @@ InitClient(char*host,int portno)
         error("ERROR connecting");
     return sockfd;
 }
+
 void 
 writeTo(int socket,char*msg)
 {
-if(send(socket,msg,strlen(msg),MSG_NOSIGNAL) == -1)error("No can write to socket. ");
-if(send(socket,"\n",1,MSG_NOSIGNAL) == -1)error("No can write to socket. ");
+if(send(socket,msg,strlen(msg),MSG_NOSIGNAL) == -1) puts("ERROR: No can write to socket. ");
+if(send(socket,"\n",1,MSG_NOSIGNAL) == -1) puts("ERROR: No can write to socket. ");
 }
+
 void readFrom(int socket,char*buffer)
 {
 memset(buffer,0,SIZEBUFFER);
@@ -54,6 +57,7 @@ if((recv(socket, buffer, SIZEBUFFER-1, 0)) <=0 )error("No can read from socket")
 if(read(socket,buffer,SIZEBUFFER-1) == -1)error("No can read from socket");
 #endif
 }
+
 void 
 stopClient(int * socket)
 {
