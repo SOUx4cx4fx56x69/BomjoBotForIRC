@@ -3,6 +3,8 @@
 #include<stdio.h>
 #include<unistd.h>
 #include<pthread.h>
+#include <time.h>
+
 #include<math.h>
 #define MAXPS 5012
 #include "AntiQubick.h"
@@ -10,12 +12,13 @@ unsigned long long FORFUCKOFF=0;
 unsigned long long NEEDFORFUCKOFF;
 unsigned int TIMETROLL;//Timer for troll function
 unsigned int TIMEDW;// timer for disable disable bot(turn troll)
+
 void
-Lambo(int * socket)
+Lambo(void)
 {
     pthread_t ForPing;
     char buffer[SIZEBUFFER];
-    bzero(buffer,SIZEBUFFER);
+
     int LambSocket=InitClient(HostServer,PortServer);
     writeTo(LambSocket, "NICK Lambo4ka");
     do
@@ -24,12 +27,25 @@ Lambo(int * socket)
      PingPong(buffer,&LambSocket);
      printf("%s\n",buffer);
     }while( strstr(buffer,"nospoof") != NULL || strstr(buffer,"PING") != NULL  ); //for ping-pong server
+
+    readFrom(LambSocket,buffer);
+
+    if(strstr(buffer,"nospoof") != NULL || strstr(buffer,"PING") != NULL) //for mystic servers
+    {
+    PingPong(buffer,&LambSocket);
+    printf("WARNING: Mystic pong-pong\n");
+    printf("....\n");
+    sprintf(buffer,"JOIN %s",DEFAULT_CHANNEL);
+    writeTo(LambSocket,buffer);
+    readFrom(LambSocket,buffer);
+    }
+
     writeTo(LambSocket,"USER Lamb 8 * : Lamb");
     sprintf(buffer,"JOIN %s",DEFAULT_CHANNEL);
     writeTo(LambSocket,buffer);
     if(pthread_create(&ForPing,NULL, _botPing ,&LambSocket) ==-1)error("No can create thread:(");
     LambsWork=1;
-    while(buffer)
+    while(*buffer)
     {
     readFrom(LambSocket,buffer);
     printf("%s\n",buffer);
@@ -45,6 +61,7 @@ Lambo(int * socket)
    close(LambSocket);
    LambsWork=0;
 }
+
 void
 _disableForWhile(int socket);
 void deleteNewLine(char*array)
@@ -199,7 +216,7 @@ SHIT CODE one love
 int 
 BotFunction(char * msg, char*channel,char*user,int socket)
 {
-srand ( time(NULL) );
+
 ///
 pthread_t _forCommands;
 ///
@@ -582,6 +599,17 @@ else if(strstr(msg, "HELP") != NULL )
  writeTo(socket, tmp);
 }
 
+else if(strstr(msg,"!CUBE") != NULL)
+{
+        register unsigned int value =  rand() % 6; 
+        char tmp[SIZEBUFFER];
+        if ( ! value )
+         sprintf(tmp,"PRIVMSG %s ACTION The Cube fell out",DEFAULT_CHANNEL);
+        else
+         sprintf(tmp,"PRIVMSG %s ACTION %d",DEFAULT_CHANNEL,value);
+        writeTo(socket,tmp);
+}
+
 else if(strstr(msg, "!CLEARLAMB") != NULL && LambsWork )
  LambsWork=0;
 
@@ -589,7 +617,7 @@ else if(strstr(msg, "!ЛАМПОЧКА") != NULL && !LambsWork )
 {
   printf("Start Lamb\n");
   pthread_t Lamb;
-  pthread_create(&Lamb,NULL,Lambo,&socket);
+  pthread_create(&Lamb,NULL,Lambo,NULL);
 }
 
 ///
