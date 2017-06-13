@@ -230,7 +230,7 @@ if(strstr(msg, "FUCKOFF") != NULL || strstr(msg, "SHUTUP") != NULL || strstr(msg
 ///
 else if(strstr(msg,"!CUBE") != NULL)
 {
-        register unsigned int value =  rand() % 6; 
+        register unsigned int value =  rand() % 7; 
         char tmp[SIZEBUFFER];
         if ( ! value )
          sprintf(tmp,"PRIVMSG %s ACTION The Cube fell out",DEFAULT_CHANNEL);
