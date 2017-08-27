@@ -20,12 +20,10 @@ Lambo(void)
 
     int LambSocket=InitClient(HostServer,PortServer);
     writeTo(LambSocket, "NICK Lambo4ka");
-    do
-    {
-     readFrom(LambSocket,buffer);
-     PingPong(buffer,&LambSocket);
-     printf("%s\n",buffer);
-    }while( strstr(buffer,"nospoof") != NULL || strstr(buffer,"PING") != NULL  ); //for ping-pong server
+    writeTo(LambSocket,"USER Lamb 8 * : Lamb");
+    readFrom(LambSocket,buffer);
+    PingPong(buffer,&LambSocket);
+    printf("%s\n",buffer);
 
     readFrom(LambSocket,buffer);
 
@@ -38,8 +36,6 @@ Lambo(void)
     writeTo(LambSocket,buffer);
     readFrom(LambSocket,buffer);
     }
-
-    writeTo(LambSocket,"USER Lamb 8 * : Lamb");
     sprintf(buffer,"JOIN %s",DEFAULT_CHANNEL);
     writeTo(LambSocket,buffer);
     if(pthread_create(&ForPing,NULL, _botPing ,&LambSocket) ==-1)error("No can create thread:(");
@@ -228,7 +224,7 @@ if(strstr(msg, "FUCKOFF") != NULL || strstr(msg, "SHUTUP") != NULL || strstr(msg
   if(pthread_create(&_forCommands,NULL,&_disableForWhile,socket) ==-1)error("No can create thread:(");
 }
 ///
-else if(strstr(msg,"!CUBE") != NULL)
+else if(strstr(msg,"!DICE") != NULL)
 {
         register unsigned int value =  rand() % 7; 
         char tmp[SIZEBUFFER];
@@ -428,6 +424,12 @@ else if(answer == 0)
 }
 */
 }//MATH
+else if(strstr(msg,"VERSION") != NULL){
+char tmp[SIZEBUFFER];
+printf("Write to channel: %s\n",channel);
+sprintf(tmp,"NOTICE %s :VERSION  https://github.com/SOUx4cx4fx56x69 / Linux 6.6.6.6.6.6.6 [x1024/6,6PHz/SMP].",channel);
+writeTo(socket,tmp);
+}
 ///
 }
 
@@ -610,7 +612,7 @@ else
 else if(strstr(msg, "HELP") != NULL )
 {
  char tmp[SIZEBUFFER];
- sprintf(tmp,"PRIVMSG %s SAYTHIS (#channel optional) message;LEAVE #channel;JOINTO #channel;SETTOPIC topic;PSAUX;QUIT;WRITETOSERVER message;NICKSET nick;CLEAROFFPOINTS;HTTP url cookie postfield;!CLEARLAMB;!ЛАМПОЧКА;It seems everything, the boss",channel);
+ sprintf(tmp,"PRIVMSG %s SAYTHIS (#channel optional) message;LEAVE #channel;JOINTO #channel;SETTOPIC topic;PSAUX;QUIT;WRITETOSERVER message;NICKSET nick;CLEAROFFPOINTS;HTTP url cookie postfield;!CLEARLAMB;!ЛАМПОЧКА;!DICE;!FLOOD;!SFLOOD;It seems everything, the boss",channel);
  writeTo(socket, tmp);
 }
 
